@@ -8,18 +8,26 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-    private final String CREATE_TABLE = "CREATE TABLE testbase.usertable (id bigint NOT NULL AUTO_INCREMENT, name varchar(255), lastName varchar(255), age tinyint, primary key (id))";
-    private final String DROP_TABLE = "DROP TABLE testbase.usertable";
-    private final String ADD_USER = "INSERT INTO testbase.usertable (name , lastname, age) Values (?, ?, ?)";
-    private final String DEL_USER = "DELETE FROM testbase.usertable WHERE id = ?";
-    private final String SELECT_ALL = "SELECT * FROM testbase.usertable";
+    private final String CREATE_TABLE;
+    private final String DROP_TABLE;
+    private final String ADD_USER;
+    private final String DEL_USER;
+    private final String SELECT_ALL;
+
+    {
+        CREATE_TABLE = "CREATE TABLE testbase.usertable (id BIGINT NOT NULL AUTO_INCREMENT, name VARCHAR(255), lastName VARCHAR(255), age TINYINT, PRIMARY KEY (id))";
+        DROP_TABLE = "DROP TABLE testbase.usertable";
+        ADD_USER = "INSERT INTO testbase.usertable (name , lastname, age) VALUES (?, ?, ?)";
+        DEL_USER = "DELETE FROM testbase.usertable WHERE id = ?";
+        SELECT_ALL = "SELECT * FROM testbase.usertable";
+    }
 
     public void createUsersTable() {
         try (Connection connectDB = Util.getConnection();
              PreparedStatement pS = connectDB.prepareStatement(CREATE_TABLE)) {
             pS.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 
@@ -28,7 +36,7 @@ public class UserDaoJDBCImpl implements UserDao {
              PreparedStatement pS = connectDB.prepareStatement(DROP_TABLE)) {
             pS.execute();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 
