@@ -33,6 +33,5 @@ public class Main {
         }
         userServiceInterface.cleanUsersTable();
         userServiceInterface.dropUsersTable();
-
     }
 }
