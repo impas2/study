@@ -62,9 +62,13 @@ public class UserDaoHibernateImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         try (Session session = Util.getSession()) {
             session.getTransaction().begin();
-            User user = new User(name, lastName, age);
-            session.persist(user);
-            session.getTransaction().commit();
+            try {
+                User user = new User(name, lastName, age);
+                session.persist(user);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                session.getTransaction().rollback();
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -74,10 +78,14 @@ public class UserDaoHibernateImpl implements UserDao {
     public void removeUserById(long id) {
         try (Session session = Util.getSession()) {
             session.getTransaction().begin();
-            Query<User> query = session.createQuery("DELETE FROM User u WHERE u.id = :id", User.class);
-            query.setParameter("id", id);
-            query.executeUpdate();
-            session.getTransaction().commit();
+            try {
+                Query<User> query = session.createQuery("DELETE FROM User u WHERE u.id = :id", User.class);
+                query.setParameter("id", id);
+                query.executeUpdate();
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                session.getTransaction().rollback();
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

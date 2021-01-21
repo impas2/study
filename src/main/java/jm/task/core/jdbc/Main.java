@@ -23,7 +23,8 @@ public class Main {
             String uLastName = testLastName + counter;
             byte uAge = (byte)(testAge + counter);
             userServiceInterface.saveUser(uName, uLastName, uAge);
-            System.out.println(String.format("User с именем –  %s добавлен в базу данных", uName));
+            String str = String.format("User с именем –  %s добавлен в базу данных", uName);
+            System.out.println(str);
         }
 
         List<User> list = userServiceInterface.getAllUsers();
@@ -31,6 +32,7 @@ public class Main {
         for(User u : list) {
             System.out.println(u);
         }
+
         userServiceInterface.cleanUsersTable();
         userServiceInterface.dropUsersTable();
     }
