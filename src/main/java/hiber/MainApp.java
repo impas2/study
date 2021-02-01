@@ -22,32 +22,18 @@ public class MainApp {
       userService.add(new User("User3", "Lastname3", "user3@mail.ru", new Car("UAZ",3)));
       userService.add(new User("User4", "Lastname4", "user4@mail.ru", new Car("ZAZ",4)));
 
+
       List<User> users = userService.listUsers();
+      System.out.println();
       for (User user : users) {
-         System.out.println("Id = "+user.getId());
-         System.out.println("First Name = "+user.getFirstName());
-         System.out.println("Last Name = "+user.getLastName());
-         System.out.println("Email = "+user.getEmail());
-         Optional<Car> car = Optional.ofNullable(user.getCar());
-         if (car.isPresent()) {
-            System.out.println("Model = " + user.getCar().getModel());
-            System.out.println("Series = " + user.getCar().getSeries());
-         }
-         System.out.println();
+         System.out.println(user);
       }
+      System.out.println();
 
       List<User> usersByCar = userService.getUserByCar("BMW", 1);
+      System.out.println();
       for (User user : usersByCar) {
-         System.out.println("Id = "+user.getId());
-         System.out.println("First Name = "+user.getFirstName());
-         System.out.println("Last Name = "+user.getLastName());
-         System.out.println("Email = "+user.getEmail());
-         Optional<Car> car = Optional.ofNullable(user.getCar());
-         if (car.isPresent()) {
-            System.out.println("Model = " + user.getCar().getModel());
-            System.out.println("Series = " + user.getCar().getSeries());
-         }
-         System.out.println();
+         System.out.println(user);
       }
 
       context.close();

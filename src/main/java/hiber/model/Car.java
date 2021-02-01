@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Table(name = "car")
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_car;
     private String model;
     private int series;
@@ -38,5 +38,14 @@ public class Car {
 
     public void setSeries(int series) {
         this.series = series;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id_car=" + id_car +
+                ", model='" + model + '\'' +
+                ", series=" + series +
+                '}';
     }
 }
