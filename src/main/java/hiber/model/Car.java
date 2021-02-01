@@ -7,8 +7,8 @@ import javax.persistence.*;
 @Table(name = "car")
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_car;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id_car;
     private String model;
     private int series;
 

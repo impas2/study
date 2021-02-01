@@ -17,16 +17,10 @@ public class MainApp {
 
       UserService userService = context.getBean(UserService.class);
 
-      userService.add(new User("User1", "Lastname1", "user1@mail.ru"));
-      userService.add(new User("User2", "Lastname2", "user2@mail.ru"));
-      userService.add(new User("User3", "Lastname3", "user3@mail.ru"));
-      userService.add(new User("User4", "Lastname4", "user4@mail.ru"));
-      //userService.add(new User("User5", "Lastname1", "user7@mail.ru"));
-
-      userService.add(new Car("BMW",1));
-      userService.add(new Car("BMW",2));
-      userService.add(new Car("BMW",3));
-      userService.add(new Car("BMW",4));
+      userService.add(new User("User1", "Lastname1", "user1@mail.ru", new Car("BMW",1)));
+      userService.add(new User("User2", "Lastname2", "user2@mail.ru", new Car("VAZ",2)));
+      userService.add(new User("User3", "Lastname3", "user3@mail.ru", new Car("UAZ",3)));
+      userService.add(new User("User4", "Lastname4", "user4@mail.ru", new Car("ZAZ",4)));
 
       List<User> users = userService.listUsers();
       for (User user : users) {
@@ -34,7 +28,21 @@ public class MainApp {
          System.out.println("First Name = "+user.getFirstName());
          System.out.println("Last Name = "+user.getLastName());
          System.out.println("Email = "+user.getEmail());
-         Optional<Car> car = Optional.of(user.getCar());
+         Optional<Car> car = Optional.ofNullable(user.getCar());
+         if (car.isPresent()) {
+            System.out.println("Model = " + user.getCar().getModel());
+            System.out.println("Series = " + user.getCar().getSeries());
+         }
+         System.out.println();
+      }
+
+      List<User> usersByCar = userService.getUserByCar("BMW", 1);
+      for (User user : usersByCar) {
+         System.out.println("Id = "+user.getId());
+         System.out.println("First Name = "+user.getFirstName());
+         System.out.println("Last Name = "+user.getLastName());
+         System.out.println("Email = "+user.getEmail());
+         Optional<Car> car = Optional.ofNullable(user.getCar());
          if (car.isPresent()) {
             System.out.println("Model = " + user.getCar().getModel());
             System.out.println("Series = " + user.getCar().getSeries());
