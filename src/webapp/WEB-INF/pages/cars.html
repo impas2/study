@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Table of Cars</h1>
+
+<table border="1">
+    <tr>
+        <th>Model</th>
+        <th>Mark</th>
+        <th>NumberOfWheels</th>
+
+    </tr>
+
+    <tr th:each="car : ${car}">
+        <td th:utext="${car.model}">index</td>
+        <td th:utext="${car.mark}">count</td>
+        <td th:utext="${car.numberOfWheels}">size</td>
+
+    </tr>
+
+</table>
+
+</body>
+</html>
