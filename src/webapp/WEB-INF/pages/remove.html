@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="windows-1251" />
+    <title>Remove user</title>
+</head>
+</head>
+<body>
+
+<h1>Remove user</h1>
+    <p th:text="${user.getId_user()}" />
+    <p th:text="${user.getName()}" />
+    <p th:text="${user.getAge()}" />
+
+<a th:href="@{/users}" text="back to list">Back to list</a>
+
+<form th:action="@{/users/{id}(id = ${user.getId_user()})}" th:method="delete" th:object="${user}">
+    <label for="name">Name </label>
+    <input name = "id_user" type = "hidden" th:field = "${user.id_user}" id = "id_user">
+    <input name = "name" type = "hidden"  th:field = "${user.name}" id = "name">
+    <br>
+    <label for="age">Age</label>
+    <input name = "age" type = "hidden" th:field = "${user.age}" id = "age">
+    <br>
+    <input type = "submit" value = "Remove">
+</form>
+</body>
+</html>

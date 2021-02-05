@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="windows-1251" />
+    <title>User List</title>
+</head>
+<body>
+<h1>Users List</h1>
+
+<br/><br/>
+<div>
+    <table th:border="1" width="50%">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Edit</th>
+            <th>Remove</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:utext="${user.id_user}" /></td>
+            <td><a th:href="@{/users/{id}(id = ${user.getId_user()})}" th:utext="${user.name}" /></td>
+            <td th:utext="${user.age}"></td>
+            <td><a th:href="@{/users/{id}/edit (id = ${user.getId_user()})}" th:text="Edit"/></td>
+            <td><a th:href="@{/users/{id}/remove (id = ${user.getId_user()})}" th:text="Remove"/></td>
+        </tr>
+    </table>
+
+    <a th:href="@{/add}" text="Add some users">Add some users</a>
+</div>
+<br/><br/>
+<div>
+
+</div>
+</body>
+</html>
