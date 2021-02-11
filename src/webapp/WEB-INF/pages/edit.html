@@ -8,10 +8,6 @@
 <body>
 <h1>Edit user</h1>
 
-    <p th:text="${user.getId_user()}" />
-    <p th:text="${user.getName()}" />
-    <p th:text="${user.getAge()}" />
-
     <a th:href="@{/users}" text="back to list">Back to list</a>
 
     <form th:action="@{/users/{id} (id = ${user.getId_user()})}" th:method="patch" th:object="${user}">
@@ -21,6 +17,9 @@
         <br>
         <label for="age">Age</label>
         <input name = "age" type = "text" th:field = "${user.age}" id = "age">
+        <br>
+        <label for="email">Email</label>
+        <input name = "email" type = "text" th:field = "${user.mailAddress}" id = "email">
         <br>
         <input type = "submit" value = "Update">
     </form>

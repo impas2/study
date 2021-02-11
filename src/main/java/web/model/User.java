@@ -11,20 +11,33 @@ public class User {
     private Long id_user;
     private String name;
     private Integer age;
+    private String mailAddress;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id_user=" + id_user +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", mailAddress='" + mailAddress + '\'' +
+                '}';
+    }
 
     public User() {
 
     }
 
-    public User(String name, Integer age) {
+    public User(String name, Integer age, String mailAddress) {
         this.name = name;
         this.age = age;
+        this.mailAddress = mailAddress;
     }
 
-    public User(Long id_user, String name, Integer age) {
+    public User(Long id_user, String name, Integer age, String mailAddress) {
         this.id_user = id_user;
         this.name = name;
         this.age = age;
+        this.mailAddress = mailAddress;
     }
 
     public Long getId_user() {
@@ -51,12 +64,11 @@ public class User {
         this.age = age;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id_user=" + id_user +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+    public String getMailAddress() {
+        return mailAddress;
+    }
+
+    public void setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
     }
 }

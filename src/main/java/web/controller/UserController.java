@@ -10,7 +10,7 @@ import web.services.IUserService;
 @Controller
 public class UserController {
 
-    private IUserService userService;
+    private final IUserService userService;
 
     @Autowired
     public UserController(IUserService userService) {
@@ -47,7 +47,7 @@ public class UserController {
         return "remove";
     }
 
-    @DeleteMapping(value = "/users/{id}")
+    @DeleteMapping(value = "/users/*")
     public String deleteUser(@ModelAttribute("user") User user) {
         userService.delUser(user);
         return "redirect:/users";
@@ -59,7 +59,7 @@ public class UserController {
         return "edit";
     }
 
-    @PatchMapping(value = "/users/{id}")
+    @PatchMapping(value = "/users/*")
     public String updateUser(@ModelAttribute("user") User user) {
         userService.updateUser(user);
         return "redirect:/users";
