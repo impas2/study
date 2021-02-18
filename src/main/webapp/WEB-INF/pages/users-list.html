@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang = "en">
+<head>
+    <meta charset="windows-1251"/>
+    <title>User List</title>
+</head>
+<body>
+<h1>Users List</h1>
+<div>
+    <h2>Welcome</h2>
+    Authenticated username:
+    <div sec:authentication="name"></div>
+    Authenticated user roles:
+    <div sec:authentication="principal.authorities"></div>
+    <br>
+    <table th:border="1" width="50%">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Edit</th>
+            <th>Remove</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:utext="${user.id_user}"/>
+            <td><a th:href="@{/admin/users/{id}(id = ${user.getId_user()})}" th:utext="${user.username}"/>
+            <td th:utext="${user.age}"/>
+            <td><a th:href="@{/admin/users/{id}/edit (id = ${user.getId_user()})}" th:text="Edit"/>
+            <td><a th:href="@{/admin/users/{id}/remove (id = ${user.getId_user()})}" th:text="Remove"/>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <a th:href="@{/admin/add}" text="Add some users">Add some users</a>
+</div>
+<br/><br/>
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>

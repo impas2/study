@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang = "en">
+<head>
+    <meta charset="windows-1251" />
+    <title>User List</title>
+</head>
+<body>
+<h1>User detail</h1>
+
+<h2>Welcome</h2>
+Authenticated username:
+<div sec:authentication="name"></div>
+Authenticated user roles:
+<div sec:authentication="principal.authorities"></div>
+<br>
+
+<table th:border="1" width="50%">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Password</th>
+        <th>Roles</th>
+    </tr>
+    <tr>
+        <td th:utext="${user.id_user}"/>
+        <td th:utext="${user.username}"/>
+        <td th:utext="${user.age}"/>
+        <td th:utext="${user.password}"/>
+        <td th:utext="${user.getAuthorities()}"/>
+     </tr>
+</table>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

@@ -1,19 +1,18 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang = "en"
+>
 <head>
     <meta charset="windows-1251" />
     <title>Edit user</title>
 </head>
-</head>
 <body>
 <h1>Edit user</h1>
 
-    <a th:href="@{/users}" text="back to list">Back to list</a>
+    <a th:href="@{/admin/users}" text="back to list">Back to list</a>
 
-    <form th:action="@{/users/{id} (id = ${user.getId_user()})}" th:method="patch" th:object="${user}">
+    <form th:action="@{/admin/users/{id}(id = ${user.getId_user()})}" th:method="patch" th:object="${user}">
         <label for="name">Name </label>
-        <input name = "id_user" type = "hidden" th:field = "${user.id_user}" id = "id_user">
-        <input name = "name" type = "text"  th:field = "${user.name}" id = "name">
+        <input name = "name" type = "text" th:field = "${user.username}" id = "name">
         <br>
         <label for="age">Age</label>
         <input name = "age" type = "text" th:field = "${user.age}" id = "age">
@@ -21,8 +20,11 @@
         <label for="email">Email</label>
         <input name = "email" type = "text" th:field = "${user.mailAddress}" id = "email">
         <br>
+        <label for="password">Password</label>
+        <input name = "password" type = "text" th:field = "${user.password}" id = "password">
+        <br>
         <input type = "submit" value = "Update">
     </form>
-
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

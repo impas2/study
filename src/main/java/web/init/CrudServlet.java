@@ -1,16 +1,14 @@
 package web.init;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
-import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 @Component
-public class CrudServlet extends AbstractDispatcherServletInitializer {
+public class CrudServlet extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     public void onStartup(ServletContext aServletContext) throws ServletException {
@@ -20,20 +18,17 @@ public class CrudServlet extends AbstractDispatcherServletInitializer {
     }
 
     @Override
-    protected WebApplicationContext createRootApplicationContext() {
-        return null;
-    }
-
-    @Override
-    protected WebApplicationContext createServletApplicationContext() {
-        AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
-        applicationContext.register(CrudServletConfig.class);
-        return applicationContext;
-    }
-
-    @Override
     protected String[] getServletMappings() {
-        return new String[] { "/*" };
+        return new String[] { "/" };
     }
 
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[] { AppConfig.class } ;
+    }
+
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[] { CrudServletConfig.class };
+    }
 }

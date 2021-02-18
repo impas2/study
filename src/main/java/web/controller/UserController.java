@@ -1,13 +1,15 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import web.model.User;
 import web.services.IUserService;
 
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
     private final IUserService userService;
@@ -17,52 +19,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = {"/", "/users"})
-    public String listUser(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        return "users-list";
+    @GetMapping(value = {"/{id}"})
+    public ModelAndView showUser(@AuthenticationPrincipal User user, @PathVariable("id") Long id) {
+        ModelAndView mav = new ModelAndView("user");
+        mav.addObject("user", userService.getUserByName(user.getUsername()));
+        return id.equals(user.getId_user()) ? mav : new ModelAndView("errorPage");
     }
 
-    @GetMapping(value = "/users/{id}")
-    public String showUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserByID(id));
-        return "user";
+    @GetMapping(value = {"/"})
+    public ModelAndView showUserWithoutId(@AuthenticationPrincipal User user) {
+        String targetUrl = "redirect:/user/" + user.getId_user().toString();
+        ModelAndView mav = new ModelAndView(targetUrl);
+        mav.addObject("user", userService.getUserByName(user.getUsername()));
+        return mav;
     }
-
-    @GetMapping(value ="/add")
-    public String addUserForm(Model model) {
-        model.addAttribute("user", new User());
-        return "add-user";
-    }
-
-    @PostMapping(value = "/add")
-    public String addUser(@ModelAttribute("user") User user) {
-        userService.addUser(user);
-        return "redirect:/users";
-    }
-
-    @GetMapping(value = "/users/{id}/remove")
-    public String deleteUserApproving(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserByID(id));
-        return "remove";
-    }
-
-    @DeleteMapping(value = "/users/*")
-    public String deleteUser(@ModelAttribute("user") User user) {
-        userService.delUser(user);
-        return "redirect:/users";
-    }
-
-    @GetMapping(value = "/users/{id}/edit")
-    public String updateUserApproving(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserByID(id));
-        return "edit";
-    }
-
-    @PatchMapping(value = "/users/*")
-    public String updateUser(@ModelAttribute("user") User user) {
-        userService.updateUser(user);
-        return "redirect:/users";
-    }
-
 }

@@ -33,7 +33,8 @@ public class WebUserDao implements IWebUserDAO {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user, Long userID) {
+        user.setId_user(userID);
         entityManager.merge(user);
     }
 
@@ -48,5 +49,12 @@ public class WebUserDao implements IWebUserDAO {
     public void delUser(User user) {
         User delUser = entityManager.find(User.class, user.getId_user());
         entityManager.remove(delUser);
+    }
+
+    @Override
+    public User getUserByName(String username) {
+        TypedQuery<User> query = entityManager.createQuery("select u from User u where u.username = :username", User.class);
+        query.setParameter("username", username);
+        return query.getResultList().get(0);
     }
 }

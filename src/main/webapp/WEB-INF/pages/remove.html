@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang = "en">
+<head>
+    <meta charset="windows-1251" />
+    <title>Remove user</title>
+</head>
+
+<body>
+
+<h1>Remove user</h1>
+
+<a th:href="@{/admin/users}" text="back to list">Back to list</a>
+
+<form th:action="@{/admin/users/{id}(id = ${user.getId_user()})}" th:method="delete" th:object="${user}">
+    <label for="name">Name </label>
+    <input name = "id_user" type = "hidden" th:field = "${user.id_user}" id = "id_user">
+    <input name = "name" type = "text" th:field = "${user.username}" id = "name">
+    <br>
+    <label for="age">Age</label>
+    <input name = "age" type = "text" th:field = "${user.age}" id = "age">
+    <br>
+    <label for="email">Email</label>
+    <input name = "email" type = "text" th:field = "${user.mailAddress}" id = "email">
+    <br>
+    <input type = "submit" value = "Remove">
+</form>
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>

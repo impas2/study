@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang = "en"
+>
+<head>
+    <title>User List</title>
+</head>
+<body>
+
+<a th:href="@{/admin/users}" text="back to list">Back to list</a>
+
+<form th:action="@{/admin/add}" th:method="post" th:object="${user}">
+    <label for="name">Name </label>
+    <input name = "name" type = "text" th:field = "${user.username}" id = "name">
+    <br>
+    <label for="age">Age</label>
+    <input name = "age" type = "text" th:field = "${user.age}" id = "age">
+    <br>
+    <label for="email">Email</label>
+    <input name = "email" type = "text" th:field = "${user.mailAddress}" id = "email">
+    <br>
+    <label for="password">Password</label>
+    <input name = "password" type = "text" th:field = "${user.password}" id = "password">
+    <br>
+    <input type = "submit" value = "Add user">
+</form>
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
