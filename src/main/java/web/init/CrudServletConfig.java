@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -12,11 +13,13 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import web.formatter.StringToRoleFormatter;
+
 
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan(basePackages = "web.controller")
+@ComponentScan(basePackages = {"web.controller", "web.formatter"})
 public class CrudServletConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
@@ -51,6 +54,11 @@ public class CrudServletConfig implements WebMvcConfigurer {
         resolver.setCharacterEncoding("UTF-8");
         resolver.setContentType("text/html; charset=UTF-8");
         registry.viewResolver(resolver);
+    }
+
+    @Override
+    public void addFormatters (FormatterRegistry registry) {
+        registry.addFormatter(applicationContext.getBean(StringToRoleFormatter.class));
     }
 
 }

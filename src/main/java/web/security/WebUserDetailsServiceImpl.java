@@ -21,6 +21,14 @@ public class WebUserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+
+//        UserDetails user2 = User
+//                .withUsername("admin")
+//                .password(new BCryptPasswordEncoder().encode("admin"))
+//                .roles("ADMIN")
+//                .build();
+//        return user2;
+
         return userService.getUserByName(s);
     }
 }

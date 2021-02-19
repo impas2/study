@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "usertable")
@@ -19,13 +21,13 @@ public class User implements UserDetails {
     private String mailAddress;
     private String password;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "userAndRole",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_role")
     )
-    protected Set<Role> roles;
+    protected Set<Role> roles = new HashSet<>();
 
     @Override
     public String toString() {
@@ -41,17 +43,18 @@ public class User implements UserDetails {
 
     }
 
-    public User(String username, Integer age, String mailAddress) {
-        this.username = username;
-        this.age = age;
-        this.mailAddress = mailAddress;
-    }
+//    public User(String username, Integer age, String mailAddress) {
+//        this.username = username;
+//        this.age = age;
+//        this.mailAddress = mailAddress;
+//    }
 
-    public User(Long id_user, String username, Integer age, String mailAddress) {
+    public User(String username, Integer age, String mailAddress, Set<Role> roles) {
         this.id_user = id_user;
         this.username = username;
         this.age = age;
         this.mailAddress = mailAddress;
+        this.roles = roles;
     }
 
     public Long getId_user() {
@@ -123,5 +126,13 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

@@ -1,7 +1,9 @@
 package web.dao;
 
 import org.springframework.stereotype.Repository;
+import web.model.Role;
 import web.model.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -56,5 +58,18 @@ public class WebUserDao implements IWebUserDAO {
         TypedQuery<User> query = entityManager.createQuery("select u from User u where u.username = :username", User.class);
         query.setParameter("username", username);
         return query.getResultList().get(0);
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+        TypedQuery<Role> query = entityManager.createQuery("select r from Role r", Role.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public Role getRoleById(Long id_role) {
+        TypedQuery<Role> query = entityManager.createQuery("select r from Role r where r.id_role = :id", Role.class);
+        query.setParameter("id", id_role);
+        return query.getSingleResult();
     }
 }

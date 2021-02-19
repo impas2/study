@@ -4,8 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import web.model.Role;
 import web.model.User;
 import web.services.IUserService;
+
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,9 +30,13 @@ public class AdminController {
     }
 
     @GetMapping(value ="/add")
-    public String addUserForm(Model model) {
-        model.addAttribute("user", new User());
-        return "add-user";
+    public ModelAndView addUserForm(Model model) {
+        User user = new User();
+        ModelAndView mav = new ModelAndView("add-user");
+        mav.addObject("user", user);
+        List<Role> roles = userService.getAllRoles();
+        mav.addObject("allRoles", roles);
+        return mav;
     }
 
     @PostMapping(value = "/add")
@@ -49,9 +58,13 @@ public class AdminController {
     }
 
     @GetMapping(value = "/users/{id}/edit")
-    public String updateUserApproving(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserByID(id));
-        return "edit";
+    public ModelAndView updateUserApproving(@PathVariable("id") Long id) {
+        User user = userService.getUserByID(id);
+        ModelAndView mav = new ModelAndView("edit");
+        mav.addObject("user", user);
+        List<Role> roles = userService.getAllRoles();
+        mav.addObject("allRoles", roles);
+        return mav;
     }
 
     @GetMapping(value = {"/users/{id}", "/"})

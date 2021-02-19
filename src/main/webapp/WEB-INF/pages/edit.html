@@ -20,9 +20,18 @@
         <label for="email">Email</label>
         <input name = "email" type = "text" th:field = "${user.mailAddress}" id = "email">
         <br>
-        <label for="password">Password</label>
-        <input name = "password" type = "text" th:field = "${user.password}" id = "password">
+        <input name = "password" type = "hidden" th:field = "${user.password}" id = "password">
         <br>
+        <p>
+            <label>Roles:
+                <input type="checkbox" name="roles"
+                       th:each="role : ${allRoles}"
+                       th:text="${role.roleName}"
+                       th:value="${role.id_role}"
+                       th:field="*{roles}"
+                />
+            </label>
+        </p>
         <input type = "submit" value = "Update">
     </form>
 <div th:replace="fragments/footer :: footer"/>

@@ -5,7 +5,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.IWebUserDAO;
+import web.model.Role;
 import web.model.User;
+
 import java.util.List;
 
 @Service
@@ -40,8 +42,6 @@ public class UserService implements IUserService {
 
     @Override
     public void updateUser(User user, Long userID) {
-        String currPassword = user.getPassword();
-        user.setPassword(passwordEncoder.encode(currPassword));
         userDAO.updateUser(user, userID);
     }
 
@@ -58,5 +58,15 @@ public class UserService implements IUserService {
     @Override
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+        return userDAO.getAllRoles();
+    }
+
+    @Override
+    public Role getRoleById(Long id_role) {
+        return userDAO.getRoleById(id_role);
     }
 }

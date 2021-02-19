@@ -21,6 +21,16 @@
     <label for="password">Password</label>
     <input name = "password" type = "text" th:field = "${user.password}" id = "password">
     <br>
+    <p>
+        <label>Roles:
+            <input type="checkbox" name="roles"
+                   th:each="role : ${allRoles}"
+                   th:text="${role.roleName}"
+                   th:value="${role.id_role}"
+                   th:field="*{roles}"
+            />
+        </label>
+    </p>
     <input type = "submit" value = "Add user">
 </form>
 <div th:replace="fragments/footer :: footer"/>
