@@ -1,4 +1,4 @@
-package web.security;
+package web.services.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                     .successHandler(authenticationSuccessHandler)
                 .and()
-                .httpBasic(withDefaults())
                 .logout(withDefaults())
                 .sessionManagement(withDefaults());
     }

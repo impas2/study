@@ -7,19 +7,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import web.model.Role;
 import web.model.User;
-import web.services.IUserService;
+import web.services.UserService;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final IUserService userService;
+    private final UserService userService;
 
     @Autowired
-    public AdminController(IUserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -71,12 +70,12 @@ public class AdminController {
     }
 
     @PatchMapping(value = "/users/{id}")
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id, @RequestParam("newPassword") String newPassword) {
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam("newPassword") String newPassword) {
         if (newPassword.equals("")) {
-            userService.updateUser(user, id);
+            userService.updateUser(user);
             System.out.println("Not New Pass");
         } else {
-            userService.updateUserWithPassword(user, id, newPassword);
+            userService.updateUserWithPassword(user, newPassword);
             System.out.println("New Pass" + newPassword);
         }
         return "redirect:/admin/users";

@@ -13,7 +13,8 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_user;
+    @Column(name = "id_user")
+    private Long id;
     private String username;
     private Integer age;
     private String mailAddress;
@@ -30,7 +31,7 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-                "id_user=" + id_user +
+                "id_user=" + id +
                 ", name='" + username + '\'' +
                 ", age=" + age +
                 ", mailAddress='" + mailAddress + '\'' +
@@ -42,19 +43,19 @@ public class User implements UserDetails {
     }
 
     public User(String username, Integer age, String mailAddress, Set<Role> roles) {
-        this.id_user = id_user;
+        this.id = id;
         this.username = username;
         this.age = age;
         this.mailAddress = mailAddress;
         this.roles = roles;
     }
 
-    public Long getId_user() {
-        return id_user;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_user(Long id_user) {
-        this.id_user = id_user;
+    public void setId(Long id_user) {
+        this.id = id_user;
     }
 
     public void setUsername(String name) {

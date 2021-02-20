@@ -10,7 +10,9 @@
 
     <a th:href="@{/admin/users}">Back to list</a>
 
-    <form th:action="@{/admin/users/{id}(id = ${user.getId_user()})}" th:method="patch" th:object="${user}">
+    <form th:action="@{/admin/users/{id}(id = ${user.getId()})}" th:method="patch" th:object="${user}">
+        <label for="id">id </label>
+        <input name = "id" type = "text" th:field = "${user.id}" id = "id">
         <label for="name">Name </label>
         <input name = "name" type = "text" th:field = "${user.username}" id = "name">
         <br>
@@ -29,7 +31,7 @@
                 <input type="checkbox" name="roles"
                        th:each="role : ${allRoles}"
                        th:text="${role.roleName}"
-                       th:value="${role.id_role}"
+                       th:value="${role.id}"
                        th:field="*{roles}"
                 />
             </label>

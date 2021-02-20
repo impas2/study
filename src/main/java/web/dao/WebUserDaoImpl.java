@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class WebUserDao implements IWebUserDAO {
+public class WebUserDaoImpl implements WebUserDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -29,27 +29,26 @@ public class WebUserDao implements IWebUserDAO {
 
     @Override
     public void delUserByID(Long userID) {
-        Query query = entityManager.createQuery("delete from User where id_user = :id");
+        Query query = entityManager.createQuery("delete from User where id = :id");
         query.setParameter("id", userID);
         query.executeUpdate();
     }
 
     @Override
-    public void updateUser(User user, Long userID) {
-        user.setId_user(userID);
+    public void updateUser(User user) {
         entityManager.merge(user);
     }
 
     @Override
     public User getUserByID(Long userID) {
-        TypedQuery<User> query = entityManager.createQuery("select u from User u where u.id_user = :id", User.class);
+        TypedQuery<User> query = entityManager.createQuery("select u from User u where u.id = :id", User.class);
         query.setParameter("id", userID);
         return query.getSingleResult();
     }
 
     @Override
     public void delUser(User user) {
-        User delUser = entityManager.find(User.class, user.getId_user());
+        User delUser = entityManager.find(User.class, user.getId());
         entityManager.remove(delUser);
     }
 
@@ -67,9 +66,9 @@ public class WebUserDao implements IWebUserDAO {
     }
 
     @Override
-    public Role getRoleById(Long id_role) {
-        TypedQuery<Role> query = entityManager.createQuery("select r from Role r where r.id_role = :id", Role.class);
-        query.setParameter("id", id_role);
+    public Role getRoleById(Long roleID) {
+        TypedQuery<Role> query = entityManager.createQuery("select r from Role r where r.id = :id", Role.class);
+        query.setParameter("id", roleID);
         return query.getSingleResult();
     }
 }

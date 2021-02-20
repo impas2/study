@@ -1,4 +1,4 @@
-package web.security;
+package web.services.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

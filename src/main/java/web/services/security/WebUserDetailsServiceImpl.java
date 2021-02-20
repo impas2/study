@@ -1,4 +1,4 @@
-package web.security;
+package web.services.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,15 +6,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import web.services.IUserService;
+import web.services.UserService;
 
 @Component
 public class WebUserDetailsServiceImpl implements UserDetailsService {
 
-    final IUserService userService;
+    final UserService userService;
 
     @Autowired
-    public WebUserDetailsServiceImpl(IUserService userService) {
+    public WebUserDetailsServiceImpl(UserService userService) {
         this.userService = userService;
     }
 

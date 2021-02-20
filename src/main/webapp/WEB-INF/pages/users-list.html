@@ -23,11 +23,11 @@
             <th>Remove</th>
         </tr>
         <tr th:each="user : ${users}">
-            <td th:utext="${user.id_user}"/>
-            <td><a th:href="@{/admin/users/{id}(id = ${user.getId_user()})}" th:utext="${user.username}"/>
+            <td th:utext="${user.id}"/>
+            <td><a th:href="@{/admin/users/{id}(id = ${user.getId()})}" th:utext="${user.username}"/>
             <td th:utext="${user.age}"/>
-            <td><a th:href="@{/admin/users/{id}/edit (id = ${user.getId_user()})}" th:text="Edit"/>
-            <td><a th:href="@{/admin/users/{id}/remove (id = ${user.getId_user()})}" th:text="Remove"/>
+            <td><a th:href="@{/admin/users/{id}/edit (id = ${user.getId()})}" th:text="Edit"/>
+            <td><a th:href="@{/admin/users/{id}/remove (id = ${user.getId()})}" th:text="Remove"/>
         </tr>
     </table>
     <br>

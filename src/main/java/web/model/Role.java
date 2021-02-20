@@ -11,7 +11,8 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id_role;
+    @Column(name = "id_role")
+    Long id;
     String roleName;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
@@ -21,12 +22,12 @@ public class Role implements GrantedAuthority {
 
     }
 
-    public Long getId_role() {
-        return id_role;
+    public Long getId() {
+        return id;
     }
 
-    public void setId_role(Long roleID) {
-        this.id_role = roleID;
+    public void setId(Long roleID) {
+        this.id = roleID;
     }
 
     public String getRoleName() {
@@ -51,7 +52,7 @@ public class Role implements GrantedAuthority {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id_role == null) ? 0 : id_role.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -64,10 +65,10 @@ public class Role implements GrantedAuthority {
         if (getClass() != obj.getClass())
             return false;
         Role other = (Role) obj;
-        if (id_role == null) {
-            if (other.id_role != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!id_role.equals(other.id_role))
+        } else if (!id.equals(other.id))
             return false;
         return true;
     }

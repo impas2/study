@@ -1,78 +1,20 @@
 package web.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import web.dao.IWebUserDAO;
 import web.model.Role;
 import web.model.User;
 
 import java.util.List;
 
-@Service
-@Transactional
-public class UserService implements IUserService {
+public interface UserService {
 
-    private final IWebUserDAO userDAO;
-    private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserService(IWebUserDAO userDAO, PasswordEncoder passwordEncoder) {
-        this.userDAO = userDAO;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    public void addUser(User user) {
-        String currPassword = user.getPassword();
-        user.setPassword(passwordEncoder.encode(currPassword));
-        userDAO.addUser(user);
-    }
-
-    @Override
-    public void delUserByID(Long userID) {
-        userDAO.delUserByID(userID);
-    }
-
-    @Override
-    public User getUserByID(Long userID) {
-        return userDAO.getUserByID(userID);
-    }
-
-    @Override
-    public void updateUser(User user, Long userID) {
-        userDAO.updateUser(user, userID);
-    }
-
-    @Override
-    public void updateUserWithPassword(User user, Long userID, String newPassword) {
-        user.setPassword(passwordEncoder.encode(newPassword));
-        updateUser(user, userID);
-    }
-
-    @Override
-    public void delUser(User user) {
-        userDAO.delUser(user);
-    }
-
-    @Override
-    public User getUserByName(String name) {
-        return userDAO.getUserByName(name);
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
-    }
-
-    @Override
-    public List<Role> getAllRoles() {
-        return userDAO.getAllRoles();
-    }
-
-    @Override
-    public Role getRoleById(Long id_role) {
-        return userDAO.getRoleById(id_role);
-    }
+    List<User> getAllUsers();
+    void addUser(User user);
+    void delUserByID(Long userID);
+    User getUserByID(Long userID);
+    void updateUser(User user);
+    void updateUserWithPassword(User user, String newPassword);
+    void delUser(User user);
+    User getUserByName(String name);
+    List<Role> getAllRoles();
+    Role getRoleById(Long roleID);
 }

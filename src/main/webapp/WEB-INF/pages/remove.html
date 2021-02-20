@@ -11,9 +11,9 @@
 
 <a th:href="@{/admin/users}" text="back to list">Back to list</a>
 
-<form th:action="@{/admin/users/{id}(id = ${user.getId_user()})}" th:method="delete" th:object="${user}">
+<form th:action="@{/admin/users/{id}(id = ${user.getId()})}" th:method="delete" th:object="${user}">
     <label for="name">Name </label>
-    <input name = "id_user" type = "hidden" th:field = "${user.id_user}" id = "id_user">
+    <input name = "id_user" type = "hidden" th:field = "${user.id}" id = "id_user">
     <input name = "name" type = "text" th:field = "${user.username}" id = "name">
     <br>
     <label for="age">Age</label>
