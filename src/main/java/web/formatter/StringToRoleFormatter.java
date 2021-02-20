@@ -15,7 +15,7 @@ public class StringToRoleFormatter implements Formatter<Role> {
 
     @Autowired
     public StringToRoleFormatter(IUserService userService) {
-        this.userService=userService;
+        this.userService = userService;
     }
 
     @Override
@@ -25,6 +25,6 @@ public class StringToRoleFormatter implements Formatter<Role> {
 
     @Override
     public String print(Role role, Locale locale) {
-        return role.toString();
+        return role.getId_role().toString();
     }
 }

@@ -6,8 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Entity
 @Table(name = "usertable")
@@ -42,12 +40,6 @@ public class User implements UserDetails {
     public User() {
 
     }
-
-//    public User(String username, Integer age, String mailAddress) {
-//        this.username = username;
-//        this.age = age;
-//        this.mailAddress = mailAddress;
-//    }
 
     public User(String username, Integer age, String mailAddress, Set<Role> roles) {
         this.id_user = id_user;

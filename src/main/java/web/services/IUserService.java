@@ -12,10 +12,9 @@ public interface IUserService {
     void delUserByID(Long userID);
     User getUserByID(Long userID);
     void updateUser(User user, Long userID);
+    void updateUserWithPassword(User user, Long userID, String newPassword);
     void delUser(User user);
     User getUserByName(String name);
-
     List<Role> getAllRoles();
-
     Role getRoleById(Long id_role);
 }

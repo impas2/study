@@ -58,13 +58,10 @@ public class AdminController {
     }
 
     @GetMapping(value = "/users/{id}/edit")
-    public ModelAndView updateUserApproving(@PathVariable("id") Long id) {
-        User user = userService.getUserByID(id);
-        ModelAndView mav = new ModelAndView("edit");
-        mav.addObject("user", user);
-        List<Role> roles = userService.getAllRoles();
-        mav.addObject("allRoles", roles);
-        return mav;
+    public String updateUserApproving(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userService.getUserByID(id));
+        model.addAttribute("allRoles", userService.getAllRoles());
+        return "edit";
     }
 
     @GetMapping(value = {"/users/{id}", "/"})
@@ -74,8 +71,14 @@ public class AdminController {
     }
 
     @PatchMapping(value = "/users/{id}")
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
-        userService.updateUser(user, id);
+    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id, @RequestParam("newPassword") String newPassword) {
+        if (newPassword.equals("")) {
+            userService.updateUser(user, id);
+            System.out.println("Not New Pass");
+        } else {
+            userService.updateUserWithPassword(user, id, newPassword);
+            System.out.println("New Pass" + newPassword);
+        }
         return "redirect:/admin/users";
     }
 

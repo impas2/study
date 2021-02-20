@@ -46,6 +46,12 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void updateUserWithPassword(User user, Long userID, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        updateUser(user, userID);
+    }
+
+    @Override
     public void delUser(User user) {
         userDAO.delUser(user);
     }
