@@ -28,8 +28,7 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public void save(User user) {
-        String encryptPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encryptPassword);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -56,6 +55,14 @@ public class WebServiceImpl implements WebService {
     @Override
     public List<User> getAllUsers() {
         return List.copyOf(userRepository.findAll());
+    }
+
+    @Override
+    public void updateUser(User user) {
+        if (!user.getPassword().equals(userRepository.findById(user.getId()).get().getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        userRepository.save(user);
     }
 
 }

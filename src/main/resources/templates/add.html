@@ -7,6 +7,8 @@
 </head>
 <body>
 <h1>New user creation</h1>
+<div th:replace="parts/loggeduser :: userInfo"></div>
+<br>
 <form th:action="@{/admin/add}" th:method="post" th:object="${blankUser}">
     <label for="username" th:text = "Username" ></label>
     <input type="text" th:field = "${blankUser.username}" id="username"/>
@@ -17,12 +19,14 @@
     <label for="password" th:text = "Password" ></label>
     <input type="text" th:field = "${blankUser.password}" id="password"/>
     <input type="submit" value="Submit"/>
-
+    <br>
     <label for="roles" th:text = "Roles"></label>
     <input type = "checkbox" th:each="role : ${allRoles}"
            th:text = "${role.roleName}"
            th:value = "${role.id}"
-           th:field="*{roles}" id = "roles">
+           th:field="*{roles}" id = "roles"><br>
 </form>
+<br>
+<div th:replace="parts/footer :: footer"></div>
 </body>
 </html>

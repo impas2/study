@@ -12,7 +12,7 @@ import web.model.User;
 @RequestMapping(value = {"/user"})
 public class UserController {
 
-    @GetMapping(value = {"/"})
+    @GetMapping(value = {"/", ""})
     public ModelAndView getUser(@AuthenticationPrincipal User user) {
         ModelAndView mav = new ModelAndView("user");
         mav.addObject("user", user);

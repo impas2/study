@@ -23,14 +23,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin").authenticated()
-                .antMatchers("/user").authenticated()
+                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                //.loginPage("/login")
                 .successHandler(authenticationSuccessHandler)
                 .and()
                 .logout(Customizer.withDefaults())

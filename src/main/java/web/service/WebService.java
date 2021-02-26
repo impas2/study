@@ -17,4 +17,6 @@ public interface WebService {
     User findUserById(Long id);
 
     List<User> getAllUsers();
+
+    void updateUser(User user);
 }

@@ -16,21 +16,26 @@
         <td>Username</td>
         <td>Email</td>
         <td>Roles</td>
-        <td>Password hash</td>
+        <td>Password</td>
+        <td>Edit user</td>
+        <td>Delete user</td>
     </tr>
     <tr th:each="user : ${allusers}">
-        <form>
-        <td th:utext="${user.id}" />
+        <td th:text="${user.id}" />
         <td th:utext="${user.username}" />
         <td th:utext="${user.email}" />
         <td th:utext="${user.roles}" />
         <td th:utext="${user.password}" />
-        </form>
-        <td><a th:href = "@{__${#httpServletRequest.requestURI}__edit}"/>Edit</td>
-        <td><form th:action = "@{__${#httpServletRequest.requestURI}__delete/}" th:method="DELETE">
-            <input type = "hidden" th:name = "id" th:value="${user.id}"/>
-            <input type = "submit" name = "Delete"/>
+        <td>            <form th:action = "@{__${#httpServletRequest.requestURI}__edit/}" th:method="GET">
+            <input type = "hidden" th:name = "username" th:value="${user.username}"/>
+            <input type = "submit" name = "Delete" value = "Edit"/>
         </form></td>
+        <td>
+            <form th:action = "@{__${#httpServletRequest.requestURI}__delete/}" th:method="DELETE">
+            <input type = "hidden" th:name = "username" th:value="${user.username}"/>
+            <input type = "submit" name = "Delete" value = "Delete"/>
+            </form>
+        </td>
     </tr>
 </table>
 </div>

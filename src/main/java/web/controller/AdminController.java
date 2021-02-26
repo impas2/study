@@ -1,9 +1,12 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import web.model.User;
 import web.service.WebService;
 
@@ -19,7 +22,7 @@ public class AdminController {
         this.webService = webService;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = {"/", ""})
     public ModelAndView adminPage() {
         ModelAndView mav = new ModelAndView("/admin");
         mav.addObject("allusers", webService.getAllUsers());
@@ -35,15 +38,32 @@ public class AdminController {
     }
 
     @PostMapping(value = "/add")
-    public String addUser(@ModelAttribute("blankUser") User user) {
+    public ModelAndView addUser(@ModelAttribute("blankUser") User user) {
+        ModelAndView mav = new ModelAndView(new RedirectView("/admin/"));
         webService.save(user);
-        return "redirect:/admin/";
+        return mav;
     }
 
     @DeleteMapping(value = "/delete")
-    public String deleteUser(@ModelAttribute("id") Long id) {
-        webService.delete(webService.findUserById(id));
-        return "redirect:/admin/";
+    public ModelAndView deleteUser(@ModelAttribute("username") String username) {
+        ModelAndView mav = new ModelAndView(new RedirectView("/admin/"));
+        webService.delete(webService.findUserByUsername(username));
+        return mav;
+    }
+
+    @GetMapping(value = "/edit")
+    public ModelAndView editUser(@ModelAttribute("username") String username) {
+        ModelAndView mav = new ModelAndView("edit");
+        mav.addObject("user", webService.findUserByUsername(username));
+        mav.addObject("allRoles", webService.getAllRoles());
+        return mav;
+    }
+
+    @PatchMapping(value = "/edit")
+    public ModelAndView editUser(@ModelAttribute("user") User user) {
+        ModelAndView mav = new ModelAndView(new RedirectView("/admin/"));
+        webService.updateUser(user);
+        return mav;
     }
 
 }
