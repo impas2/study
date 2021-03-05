@@ -11,7 +11,6 @@ public class LoginController {
 
     @GetMapping(value = { "" , "/"})
     public ModelAndView loginPage() {
-        ModelAndView mav = new ModelAndView("/login");
-        return mav;
+        return new ModelAndView("/login");
     }
 }

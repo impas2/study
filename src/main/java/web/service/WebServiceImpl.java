@@ -15,9 +15,9 @@ import java.util.List;
 @Transactional
 public class WebServiceImpl implements WebService {
 
-    UserRepository userRepository;
-    PasswordEncoder passwordEncoder;
-    RoleRepository roleRepository;
+    final UserRepository userRepository;
+    final PasswordEncoder passwordEncoder;
+    final RoleRepository roleRepository;
 
     @Autowired
     public WebServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {

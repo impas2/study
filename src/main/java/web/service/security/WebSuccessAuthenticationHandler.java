@@ -1,7 +1,6 @@
 package web.service.security;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -17,15 +16,8 @@ public class WebSuccessAuthenticationHandler implements AuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-        String targetUrl = "/user/";
-
-        for(GrantedAuthority authority : authentication.getAuthorities()) {
-            if (authority.getAuthority().equals("ADMIN")) {
-                targetUrl = "/admin/";
-            }
-        }
+        String targetUrl = "/index";
 
         redirectStrategy.sendRedirect(httpServletRequest,httpServletResponse,targetUrl);
-
     }
 }

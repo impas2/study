@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user")
@@ -33,9 +32,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> rolesList = new ArrayList<>();
-        for(GrantedAuthority role : this.roles) {
-            rolesList.add(role);
-        }
+        rolesList.addAll(this.roles);
         return rolesList;
     }
 

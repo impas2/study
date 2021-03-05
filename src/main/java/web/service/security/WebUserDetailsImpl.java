@@ -10,7 +10,7 @@ import web.dao.UserRepository;
 @Component
 public class WebUserDetailsImpl implements UserDetailsService {
 
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
     @Autowired
     public WebUserDetailsImpl(UserRepository userRepository) {
