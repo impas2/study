@@ -59,10 +59,13 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public void updateUser(User user) {
-        if (!user.getPassword().equals(userRepository.findById(user.getId()).get().getPassword())) {
+        if (!user.getPassword().equals("")) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            user.setPassword(userRepository.findById(user.getId()).get().getPassword());
         }
         userRepository.save(user);
+
     }
 
 }

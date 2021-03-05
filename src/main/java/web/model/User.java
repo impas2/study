@@ -15,9 +15,12 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    //uses email as user name
     String username;
-    String email;
     String password;
+    Integer age;
+    String firstname;
+    String lastname;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
@@ -71,10 +74,6 @@ public class User implements UserDetails {
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -87,10 +86,6 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
@@ -98,5 +93,30 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
 
 }

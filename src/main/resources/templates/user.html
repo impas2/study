@@ -1,22 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang = "en">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
-<body>
-<h1>User info</h1>
-<div th:replace="parts/loggeduser :: userInfo"></div>
-<div>
-    <table border="1">
-        <tr>
-            <td th:utext="${user.username}" />
-            <td th:utext="${user.email}" />
-            <td th:utext="${user.roles}" />
-            <td th:utext="${user.password}" />
-        </tr>
-    </table>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <title>Admin home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--    <link th:href="@{/css/style.css}" rel="stylesheet">-->
 
+</head>
+<body>
+<!--header start-->
+<header class="header">
+    <nav class="navbar sticky-top bg-dark text-light">
+        <div class="container-fluid">
+            <div class="navbar-expand">
+                <div class="navbar-brand"><span sec:authentication="name">Username</span></div>
+                <div class="navbar-brand"><span sec:authentication="principal.authorities"></span>Roles</div>
+            </div>
+            <a href="/logout" class="navbar-text">Logout</a>
+        </div>
+    </nav>
+</header>
+<!--header end-->
+<div class="container-fluid px-0">
+    <div class="row d-flex h-100">
+        <!--        Slidebar start-->
+        <div class="col-2 h-100">
+            <div class="col-2 navbar-light bg-light text-white position-fixed h-100 align-self-start">
+                <ul class="nav flex-column flex-nowrap text-truncate sticky-top">
+                    <li class="nav-item p-1">
+                        <button class="btn btn-primary d-flex w-100" th:href="@{user.html}">User</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--        Slidebar end-->
+        <div class="col">
+            <!--            Tab menu start -->
+
+            <div>
+                <nav class="nav navbar bg-light border">
+                    <div class="nav-item">
+                        <h5>About user</h5>
+                    </div>
+                </nav>
+                <table class="table table-striped border">
+                    <thead>
+                        <th>ID</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:utext="${user.username}"/>
+                        <td th:utext="${user.username}"/>
+                        <td th:utext="${user.roles}"/>
+                        <td th:utext="${user.password}"/>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Tab menu end-->
+    </div>
+</div>
 
 </div>
-<div th:replace="parts/footer :: footer"></div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
