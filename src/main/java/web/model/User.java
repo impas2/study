@@ -1,14 +1,16 @@
 package web.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
 
 
     @Id
@@ -27,6 +29,7 @@ public class User implements UserDetails {
             joinColumns =  @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_role")
     )
+    @JsonManagedReference
     Set<Role> roles = new HashSet<>();
 
     @Override

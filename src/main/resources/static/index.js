@@ -1,59 +1,67 @@
-$('#delete-user-modal').on('show.bs.modal', function (event) {
-    $(this).find('.modal-content')
-    let rowId = $(event.relatedTarget).data('user_id');
-    let cells = document.getElementById(rowId).getElementsByTagName("td");
-    for (let counter = 0; counter < 5; counter++) {
-        console.log(cells[counter].textContent);
-    }
-    document.getElementById('delete-user-id').value = cells[0].textContent;
-    document.getElementById('delete-user-firstname').value = cells[1].textContent;
-    document.getElementById('delete-user-lastname').value = cells[2].textContent;
-    document.getElementById('delete-user-age').value = cells[3].textContent;
-    document.getElementById('delete-user-email').value = cells[4].textContent;
-    document.getElementById('delete-user-roles').value = cells[5].textContent;
+const apiInterface = 'http://localhost:8080/api/user';
 
-});
 
-$('#edit-user-modal').on('show.bs.modal', function (event) {
-    $(this).find('.modal-content')
-    let rowId = $(event.relatedTarget).data('user_id');
-    let cells = document.getElementById(rowId).getElementsByTagName("td");
-    for (let counter = 0; counter < 5; counter++) {
-        console.log(cells[counter].textContent);
-    }
-    document.getElementById('edit-user-id').value = cells[0].textContent;
-    document.getElementById('edit-user-firstname').value = cells[1].textContent;
-    document.getElementById('edit-user-lastname').value = cells[2].textContent;
-    document.getElementById('edit-user-age').value = cells[3].textContent;
-    document.getElementById('edit-user-email').value = cells[4].textContent;
-    let selectBox = document.getElementById('edit-user-roles');
-    let stringValues = cells[5].textContent;
-    stringValues = stringValues.slice(1,stringValues.length-1);
-    let arr = stringValues.split(",");
 
-    for(let counter = 0; counter<arr.length; counter++) {
-        for(let counterInner = 0; counterInner < selectBox.options.length; counterInner++) {
-            if (arr[counter].trim() === selectBox.options[counterInner].innerText) {
-                selectBox.options[counterInner].selected = "selected";
-                console.log('Role checked SUCCESS '+ arr[counter].trim());
+async function userTableContextUpdate() {
+    let users = await fetch(apiInterface);
+    if (users.ok) {
+        let content = await users.json();
+        let table = document.getElementById('all-user-table');
+        let tbody = document.createElement('tbody');
+        console.log("content = " + content);
+        console.log(tbody);
+
+        for (let counter = 0; counter < content.length; counter++) {
+            let tr = document.createElement('tr');
+            let row = content[counter];
+            console.log(row);
+            for (let data in row) {
+                let td = document.createElement('td');
+                if(data == 'roles') {
+                    console.log('data = roles');
+                    td.innerHTML = rolesToSting(row[data]);
+                    tr.appendChild(td);
+                    continue;
+                }
+                td.innerHTML = row[data];
+                tr.appendChild(td);
+                console.log(row[data]);
             }
+            let tdEdit = document.createElement('td');
+            tdEdit.appendChild(createButton());
+            tr.append(tdEdit);
+            let tdDelete = document.createElement('td');
+            tdDelete.appendChild(createButton());
+            tr.append(tdDelete);
+            tbody.appendChild(tr);
         }
-    }
-});
+        table.appendChild(tbody);
 
-$('#edit-user-modal').on('hide.bs.modal', function () {
-    let selectBox = document.getElementById('edit-user-roles');
-    for(let counterInner = 0; counterInner < selectBox.length ; counterInner++) {
-        selectBox.options[counterInner].selected = "";
+    } else {
+        alert("Ошибка HTTP: " + users.status);
     }
-});
+    ;
 
-$('#delete-user-modal').on('hide.bs.modal', function () {
-    let selectBox = document.getElementById('edit-user-roles');
-    for(let counterInner = 0; counterInner < selectBox.length ; counterInner++) {
-        selectBox.options[counterInner].selected = "";
+};
+
+function rolesToSting(arrayOfRoles) {
+    let rolesString = "";
+    for(let counter=0; counter<arrayOfRoles.length; counter++) {
+        let obj = arrayOfRoles[counter];
+        rolesString = rolesString.concat(obj['roleName'] + " ") ;
+        console.log(rolesString);
+        console.log(obj);
+        console.log(obj['roleName']);
     }
-});
+    return rolesString;
+}
+
+function createButton(id, btnText, btnColor, btnLink) {
+    let btn = document.createElement('button');
+    btn.className = 'btn ' + btnColor;
+    btn.innerText = btnText;
+    return btn;
+}
 
 $(document).ready(function () {
     if (document.getElementById('v-pills-admin-tab') != null) {
@@ -61,4 +69,9 @@ $(document).ready(function () {
     } else {
         $('#v-pills-user-tab').tab('show');
     }
+    ;
+
+    userTableContextUpdate();
+
 });
+

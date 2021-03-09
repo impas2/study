@@ -8,8 +8,11 @@ import web.dao.RoleRepository;
 import web.dao.UserRepository;
 import web.model.Role;
 import web.model.User;
+import web.model.UserDTO;
+import web.service.mapper.UserMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -18,12 +21,14 @@ public class WebServiceImpl implements WebService {
     final UserRepository userRepository;
     final PasswordEncoder passwordEncoder;
     final RoleRepository roleRepository;
+    final UserMapper userMapper;
 
     @Autowired
-    public WebServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public WebServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -35,6 +40,11 @@ public class WebServiceImpl implements WebService {
     @Override
     public void delete(User user) {
         userRepository.delete(user);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.delete(userRepository.findById(id).get());
     }
 
     @Override
@@ -53,8 +63,19 @@ public class WebServiceImpl implements WebService {
     }
 
     @Override
+    public UserDTO findUserByIdDTO(Long id) {
+
+        return userRepository.findById(id).map(userMapper::userToDTO).orElseThrow();
+    }
+
+    @Override
     public List<User> getAllUsers() {
         return List.copyOf(userRepository.findAll());
+    }
+
+    @Override
+    public List<UserDTO> getAllUsersDTO() {
+        return userRepository.findAll().stream().map(userMapper::userToDTO).collect(Collectors.toList());
     }
 
     @Override
