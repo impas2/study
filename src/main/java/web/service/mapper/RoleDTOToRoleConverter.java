@@ -9,7 +9,7 @@ import web.model.RoleDTO;
 @Component
 public class RoleDTOToRoleConverter implements Converter<RoleDTO, Role> {
 
-    RoleRepository roleRepository;
+    final RoleRepository roleRepository;
 
     RoleDTOToRoleConverter(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;

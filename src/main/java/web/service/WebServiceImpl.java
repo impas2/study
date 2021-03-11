@@ -18,6 +18,7 @@ import web.service.mapper.UserToUserDTOConverter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @Component
 @Transactional
 public class WebServiceImpl implements WebService {
@@ -26,7 +27,6 @@ public class WebServiceImpl implements WebService {
     final PasswordEncoder passwordEncoder;
     final RoleRepository roleRepository;
     final RoleToRoleDTOConverter roleToRoleDTOConverter;
-    final RoleDTOToRoleConverter roleDTOToRoleConverter;
     final UserToUserDTOConverter userToUserDTOConverter;
     final UserDTOToUserConverter userDTOToUserConverter;
 
@@ -36,7 +36,6 @@ public class WebServiceImpl implements WebService {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleToRoleDTOConverter = roleToRoleDTOConverter;
-        this.roleDTOToRoleConverter = roleDTOToRoleConverter;
         this.userToUserDTOConverter = userToUserDTOConverter;
         this.userDTOToUserConverter = userDTOToUserConverter;
     }
@@ -50,13 +49,7 @@ public class WebServiceImpl implements WebService {
     @Override
     public void save(UserDTO userDTO) {
         User user = userDTOToUserConverter.convert(userDTO);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-    }
-
-    @Override
-    public void delete(User user) {
-        userRepository.delete(user);
+        save(user);
     }
 
     @Override
@@ -71,7 +64,7 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public List<RoleDTO> getAllRolesDTO() {
-        return roleRepository.findAll().stream().map(roleToRoleDTOConverter::convert).collect(Collectors.toList());
+        return getAllRoles().stream().map(roleToRoleDTOConverter::convert).collect(Collectors.toList());
     }
 
     @Override
@@ -86,8 +79,7 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public UserDTO findUserByIdDTO(Long id) {
-
-        return userRepository.findById(id).map(userToUserDTOConverter::convert).orElseThrow();
+        return userToUserDTOConverter.convert(findUserById(id));
     }
 
     @Override
@@ -97,7 +89,7 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public List<UserDTO> getAllUsersDTO() {
-        return userRepository.findAll().stream().map(userToUserDTOConverter::convert).collect(Collectors.toList());
+        return getAllUsers().stream().map(userToUserDTOConverter::convert).collect(Collectors.toList());
     }
 
     @Override
@@ -105,6 +97,7 @@ public class WebServiceImpl implements WebService {
         if (!user.getPassword().equals("")) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {
+            //noinspection OptionalGetWithoutIsPresent
             user.setPassword(userRepository.findById(user.getId()).get().getPassword());
         }
         userRepository.save(user);
@@ -114,13 +107,7 @@ public class WebServiceImpl implements WebService {
     @Override
     public void updateUser(UserDTO userDTO) {
         User user = userDTOToUserConverter.convert(userDTO);
-        if (!user.getPassword().equals("")) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        } else {
-            user.setPassword(userRepository.findById(user.getId()).get().getPassword());
-        }
-        userRepository.save(user);
-
+        updateUser(user);
     }
 
 }

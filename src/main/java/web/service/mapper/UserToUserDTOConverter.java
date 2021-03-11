@@ -13,7 +13,7 @@ import java.util.Set;
 @Component
 public class UserToUserDTOConverter implements Converter<User, UserDTO> {
 
-    RoleToRoleDTOConverter roleToDTO;
+    final RoleToRoleDTOConverter roleToDTO;
 
     public UserToUserDTOConverter(RoleToRoleDTOConverter roleToDTO) {
         this.roleToDTO = roleToDTO;

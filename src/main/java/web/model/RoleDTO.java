@@ -1,16 +1,8 @@
 package web.model;
 
 public class RoleDTO {
-//    Long id;
-    String roleName;
 
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
+    String roleName;
 
     public String getRoleName() {
         return roleName;

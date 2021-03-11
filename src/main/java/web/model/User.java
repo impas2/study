@@ -34,9 +34,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> rolesList = new ArrayList<>();
-        rolesList.addAll(this.roles);
-        return rolesList;
+        return new ArrayList<GrantedAuthority>(this.roles);
     }
 
     @Override

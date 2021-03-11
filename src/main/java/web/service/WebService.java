@@ -12,8 +12,6 @@ public interface WebService {
 
     void save(UserDTO userDTO);
 
-    void delete(User user);
-
     void delete(Long id);
 
     List<Role> getAllRoles();

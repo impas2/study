@@ -13,7 +13,7 @@ import java.util.Set;
 @Component
 public class UserDTOToUserConverter implements Converter<UserDTO, User> {
 
-    RoleDTOToRoleConverter dtoToRole;
+    final RoleDTOToRoleConverter dtoToRole;
 
     public UserDTOToUserConverter(RoleDTOToRoleConverter dtoToRole) {
         this.dtoToRole = dtoToRole;
@@ -43,7 +43,7 @@ public class UserDTOToUserConverter implements Converter<UserDTO, User> {
             return null;
         }
 
-        Set<Role> set1 = new HashSet<Role>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
+        Set<Role> set1 = new HashSet<>(Math.max((int) (set.size() / .75f) + 1, 16));
         for ( RoleDTO roleDTO : set ) {
             set1.add(dtoToRole.convert(roleDTO) );
         }

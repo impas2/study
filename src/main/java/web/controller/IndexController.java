@@ -22,8 +22,6 @@ public class IndexController {
     @GetMapping(value = {"index", "",})
     public ModelAndView StartPage(Authentication authentication) {
         ModelAndView mav = new ModelAndView("index");
-        mav.addObject("allUsers", webService.getAllUsers());
-        mav.addObject("allRoles", webService.getAllRoles());
         mav.addObject("loggedUser", webService.findUserByUsername(authentication.getName()));
         return mav;
     }
