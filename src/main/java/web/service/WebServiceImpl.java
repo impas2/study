@@ -7,9 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 import web.dao.RoleRepository;
 import web.dao.UserRepository;
 import web.model.Role;
+import web.model.RoleDTO;
 import web.model.User;
 import web.model.UserDTO;
-import web.service.mapper.UserMapper;
+import web.service.mapper.RoleDTOToRoleConverter;
+import web.service.mapper.RoleToRoleDTOConverter;
+import web.service.mapper.UserDTOToUserConverter;
+import web.service.mapper.UserToUserDTOConverter;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,18 +25,31 @@ public class WebServiceImpl implements WebService {
     final UserRepository userRepository;
     final PasswordEncoder passwordEncoder;
     final RoleRepository roleRepository;
-    final UserMapper userMapper;
+    final RoleToRoleDTOConverter roleToRoleDTOConverter;
+    final RoleDTOToRoleConverter roleDTOToRoleConverter;
+    final UserToUserDTOConverter userToUserDTOConverter;
+    final UserDTOToUserConverter userDTOToUserConverter;
 
     @Autowired
-    public WebServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+    public WebServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, RoleToRoleDTOConverter roleToRoleDTOConverter, RoleDTOToRoleConverter roleDTOToRoleConverter, UserToUserDTOConverter userToUserDTOConverter, UserDTOToUserConverter userDTOToUserConverter) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userMapper = userMapper;
+        this.roleToRoleDTOConverter = roleToRoleDTOConverter;
+        this.roleDTOToRoleConverter = roleDTOToRoleConverter;
+        this.userToUserDTOConverter = userToUserDTOConverter;
+        this.userDTOToUserConverter = userDTOToUserConverter;
     }
 
     @Override
     public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void save(UserDTO userDTO) {
+        User user = userDTOToUserConverter.convert(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -53,6 +70,11 @@ public class WebServiceImpl implements WebService {
     }
 
     @Override
+    public List<RoleDTO> getAllRolesDTO() {
+        return roleRepository.findAll().stream().map(roleToRoleDTOConverter::convert).collect(Collectors.toList());
+    }
+
+    @Override
     public User findUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
@@ -65,7 +87,7 @@ public class WebServiceImpl implements WebService {
     @Override
     public UserDTO findUserByIdDTO(Long id) {
 
-        return userRepository.findById(id).map(userMapper::userToDTO).orElseThrow();
+        return userRepository.findById(id).map(userToUserDTOConverter::convert).orElseThrow();
     }
 
     @Override
@@ -75,11 +97,23 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public List<UserDTO> getAllUsersDTO() {
-        return userRepository.findAll().stream().map(userMapper::userToDTO).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(userToUserDTOConverter::convert).collect(Collectors.toList());
     }
 
     @Override
     public void updateUser(User user) {
+        if (!user.getPassword().equals("")) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else {
+            user.setPassword(userRepository.findById(user.getId()).get().getPassword());
+        }
+        userRepository.save(user);
+
+    }
+
+    @Override
+    public void updateUser(UserDTO userDTO) {
+        User user = userDTOToUserConverter.convert(userDTO);
         if (!user.getPassword().equals("")) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {

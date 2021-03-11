@@ -1,7 +1,9 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import web.model.RoleDTO;
 import web.model.User;
 import web.model.UserDTO;
 import web.service.WebService;
@@ -30,17 +32,23 @@ public class RestBootController {
     }
 
     @PostMapping(value = "/user")
-    public void setNewUser(@RequestBody User user) {
+    public void setNewUser(@RequestBody UserDTO user) {
         webService.save(user);
     }
 
-    @PatchMapping(value="/user/{id}")
-    public void updateUser(@RequestBody User user, @PathVariable("id") Long id) {
-        System.out.println("user has been changed");
+    @PatchMapping(value="/user/{id}", consumes = { MediaType.ALL_VALUE })
+    public void updateUser(@RequestBody UserDTO userDTO) {
+        webService.updateUser(userDTO);
     }
 
     @DeleteMapping("/user/{id}")
     public void delUser(@PathVariable("id") Long id) {
         webService.delete(id);
     }
+
+    @GetMapping(value = "/role")
+    public List<RoleDTO> getAllRoles() {
+        return webService.getAllRolesDTO();
+    }
+
 }
