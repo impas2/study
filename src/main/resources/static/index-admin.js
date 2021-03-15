@@ -1,5 +1,6 @@
 const apiInterfaceUser = 'http://localhost:8080/api/user';
 const apiInterfaceRole = 'http://localhost:8080/api/role';
+const apiInterfaceUserinfo = 'http://localhost:8080/api/userinfo';
 
 
 // обновление данных таблицы из базы

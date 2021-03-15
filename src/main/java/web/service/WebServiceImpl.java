@@ -10,10 +10,7 @@ import web.model.Role;
 import web.model.RoleDTO;
 import web.model.User;
 import web.model.UserDTO;
-import web.service.mapper.RoleDTOToRoleConverter;
-import web.service.mapper.RoleToRoleDTOConverter;
-import web.service.mapper.UserDTOToUserConverter;
-import web.service.mapper.UserToUserDTOConverter;
+import web.service.mapper.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,34 +23,33 @@ public class WebServiceImpl implements WebService {
     final UserRepository userRepository;
     final PasswordEncoder passwordEncoder;
     final RoleRepository roleRepository;
-    final RoleToRoleDTOConverter roleToRoleDTOConverter;
-    final UserToUserDTOConverter userToUserDTOConverter;
-    final UserDTOToUserConverter userDTOToUserConverter;
+    final UserMapper userMapper;
+    final AbstractRoleMapper roleMapper;
+
 
     @Autowired
-    public WebServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, RoleToRoleDTOConverter roleToRoleDTOConverter, RoleDTOToRoleConverter roleDTOToRoleConverter, UserToUserDTOConverter userToUserDTOConverter, UserDTOToUserConverter userDTOToUserConverter) {
+    public WebServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserMapper userMapper, AbstractRoleMapper roleMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.roleToRoleDTOConverter = roleToRoleDTOConverter;
-        this.userToUserDTOConverter = userToUserDTOConverter;
-        this.userDTOToUserConverter = userDTOToUserConverter;
+        this.userMapper = userMapper;
+        this.roleMapper = roleMapper;
     }
 
     @Override
-    public void save(User user) {
+    public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
     @Override
-    public void save(UserDTO userDTO) {
-        User user = userDTOToUserConverter.convert(userDTO);
-        save(user);
+    public void saveUser(UserDTO userDTO) {
+        User user = userMapper.fromDTO(userDTO);
+        saveUser(user);
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteUser(Long id) {
         userRepository.delete(userRepository.findById(id).get());
     }
 
@@ -64,7 +60,7 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public List<RoleDTO> getAllRolesDTO() {
-        return getAllRoles().stream().map(roleToRoleDTOConverter::convert).collect(Collectors.toList());
+        return getAllRoles().stream().map(roleMapper::fromRole).collect(Collectors.toList());
     }
 
     @Override
@@ -79,7 +75,12 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public UserDTO findUserByIdDTO(Long id) {
-        return userToUserDTOConverter.convert(findUserById(id));
+        return userMapper.fromUser(userRepository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public UserDTO findUserByUsernameDTO(String username) {
+        return userMapper.fromUser(findUserByUsername(username));
     }
 
     @Override
@@ -89,7 +90,7 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public List<UserDTO> getAllUsersDTO() {
-        return getAllUsers().stream().map(userToUserDTOConverter::convert).collect(Collectors.toList());
+        return getAllUsers().stream().map(userMapper::fromUser).collect(Collectors.toList());
     }
 
     @Override
@@ -97,16 +98,14 @@ public class WebServiceImpl implements WebService {
         if (!user.getPassword().equals("")) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {
-            //noinspection OptionalGetWithoutIsPresent
             user.setPassword(userRepository.findById(user.getId()).get().getPassword());
         }
         userRepository.save(user);
-
     }
 
     @Override
     public void updateUser(UserDTO userDTO) {
-        User user = userDTOToUserConverter.convert(userDTO);
+        User user = userMapper.fromDTO(userDTO);
         updateUser(user);
     }
 

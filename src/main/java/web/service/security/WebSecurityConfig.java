@@ -14,20 +14,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    @Autowired
-    public WebSecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler) {
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/user/**").hasAuthority("USER")
+                .antMatchers( "/api/userinfo").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/api/**").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
@@ -36,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .usernameParameter("inputEmail")
                 .passwordParameter("inputPassword")
-                .successHandler(authenticationSuccessHandler)
+                .defaultSuccessUrl("/index")
                 .and()
                 .logout()
                 .logoutUrl("/logout")

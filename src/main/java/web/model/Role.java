@@ -34,12 +34,6 @@ public class Role implements GrantedAuthority {
         this.roleName = roleName;
     }
 
-// --Commented out by Inspection START (12.03.2021 1:36):
-//    public Set<User> getUsers() {
-//        return users;
-//    }
-// --Commented out by Inspection STOP (12.03.2021 1:36)
-
     public void setUsers(Set<User> users) {
         this.users = users;
     }

@@ -8,11 +8,11 @@ import web.model.UserDTO;
 import java.util.List;
 
 public interface WebService {
-    void save(User user);
+    void saveUser(User user);
 
-    void save(UserDTO userDTO);
+    void saveUser(UserDTO userDTO);
 
-    void delete(Long id);
+    void deleteUser(Long id);
 
     List<Role> getAllRoles();
 
@@ -23,6 +23,8 @@ public interface WebService {
     User findUserById(Long id);
 
     UserDTO findUserByIdDTO(Long id);
+
+    UserDTO findUserByUsernameDTO(String username);
 
     List<User> getAllUsers();
 

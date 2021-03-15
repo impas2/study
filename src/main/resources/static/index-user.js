@@ -19,7 +19,7 @@ $('#v-pills-user-tab').on('click', async function (event) {
     let id = document.getElementById('current-user').innerHTML;
     let oldTbody = document.getElementById('logged-user');
 
-    let content = await loadInfo(apiInterfaceUser + '/' + id);
+    let content = await loadInfo(apiInterfaceUserinfo);
     let tbody = document.createElement('tbody');
     tbody.id = 'logged-user';
 
